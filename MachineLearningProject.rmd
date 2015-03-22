@@ -1,0 +1,81 @@
+#Practical Machine Learning Course Project (Writeup)
+
+##Background
+
+Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible to collect a large amount of data about personal activity relatively inexpensively. These type of devices are part of the quantified self movement - a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. One thing that people regularly do is quantify how much of a particular activity they do, but they rarely quantify how well they do it. In this project, your goal will be to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants. They were asked to perform barbell lifts correctly and incorrectly in 5 different ways.
+
+More information is available from the website here: http://groupware.les.inf.puc-rio.br/har (see the section on the Weight Lifting Exercise Dataset). 
+
+## Loading and cleaning up the data
+
+First of all we need to load training and test set.
+
+```{r ChunkLoadData, cache=TRUE}
+setwd("C:/Users/Hark/Documents/Estudo/Data Science Specialization/08 - Practical Machine Learning/Curso")
+Training_Data <- read.csv("./Machine Learning/pml-training.csv")
+Testing_Data <- read.csv("./Machine Learning/pml-testing.csv")
+```
+
+After have loaded all the data, we need to remove all variables that don't have influence on the outcome, in order to make the data analysis easier.
+
+I decided to remove 3 types of variables:
+
+1. non-numeric variables;
+2. All variables which has only NAs;
+3. Variables with no variance.
+
+```{r}
+library(caret)
+##Remove non-numeric variables
+Training_Data <- Training_Data[,-(1:7)]
+
+## Removing all variables which has only NAs.
+j <- 1
+for (i in seq_along(names(Training_Data))) {
+    suppressWarnings(
+        if (is.na(unique(Training_Data[, j])) == TRUE) {
+            Training_Data <- Training_Data[, -j]
+            j <- j - 1
+        }
+    )
+    j <- j + 1
+}
+
+##Remove variables with no variance.
+nearZeroColumns <- nearZeroVar(Training_Data, saveMetrics = TRUE)
+Training_Data <- Training_Data[, nearZeroColumns$nzv==FALSE]
+```
+
+##Creating a Machine Learning
+
+To create our model we have to split our training data set in two, by this way we have the training data set and a validation data set.
+
+```{r}
+trainIndex <- createDataPartition(y = Training_Data$classe, p=0.6,list=FALSE);
+trainingPartition <- Training_Data[trainIndex,];
+testingPartition <- Training_Data[-trainIndex,];
+```
+
+To model our data was applied Random Forest algorithm.
+
+```{r ChunkCreateModel, cache=TRUE, results='hide'}
+set.seed(3333)
+fit <- train(classe ~ .,  method="lda", data=trainingPartition)
+```
+
+##Cross validation
+
+In order to avoid overfitting we need to apply a cross validation algorithm.
+
+```{r ChunkCrossValidation, cache=TRUE, results='hide'}
+CVcontrol <- trainControl(method = "repeatedcv", number = 5, repeats = 5)
+fit_CV <- train(classe ~ ., method="lda",  data=trainingPartition, trControl = CVcontrol)
+```
+
+As we can see below this model has an accuracy of 70%
+
+```{r}
+##Checking accuracy
+Accuracy_CV <- predict(fit_CV, testingPartition)
+confusionMatrix(Accuracy_CV, testingPartition$classe)
+```
