@@ -70,10 +70,9 @@ img {
 </div>
 <div id="loading-and-cleaning-up-the-data" class="section level2">
 <h2>Loading and cleaning up the data</h2>
-<p>First of all we need to load training and test set.</p>
+<p>First of all we need to load the training data set.</p>
 <pre class="r"><code>setwd(&quot;C:/Users/Hark/Documents/Estudo/Data Science Specialization/08 - Practical Machine Learning/Curso&quot;)
-Training_Data &lt;- read.csv(&quot;./Machine Learning/pml-training.csv&quot;)
-Testing_Data &lt;- read.csv(&quot;./Machine Learning/pml-testing.csv&quot;)</code></pre>
+Training_Data &lt;- read.csv(&quot;./Machine Learning/pml-training.csv&quot;)</code></pre>
 <p>After have loaded all the data, we need to remove all variables that don’t have influence on the outcome, in order to make the data analysis easier.</p>
 <p>I decided to remove 3 types of variables:</p>
 <ol style="list-style-type: decimal">
@@ -127,33 +126,33 @@ Accuracy_CV &lt;- predict(fit_CV, testingPartition)</code></pre>
 ## 
 ##           Reference
 ## Prediction    A    B    C    D    E
-##          A 1825  227  113   73   50
-##          B   54  995  130   59  237
-##          C  174  171  911  156  138
-##          D  172   59  180  954  154
-##          E    7   66   34   44  863
+##          A 1820  227  120   87   50
+##          B   58  994  133   57  237
+##          C  170  161  909  145  131
+##          D  174   58  172  941  161
+##          E   10   78   34   56  863
 ## 
 ## Overall Statistics
 ##                                           
-##                Accuracy : 0.7071          
-##                  95% CI : (0.6969, 0.7172)
+##                Accuracy : 0.7044          
+##                  95% CI : (0.6942, 0.7145)
 ##     No Information Rate : 0.2845          
 ##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
 ##                                           
-##                   Kappa : 0.6296          
+##                   Kappa : 0.6261          
 ##  Mcnemar's Test P-Value : &lt; 2.2e-16       
 ## 
 ## Statistics by Class:
 ## 
 ##                      Class: A Class: B Class: C Class: D Class: E
-## Sensitivity            0.8177   0.6555   0.6659   0.7418   0.5985
-## Specificity            0.9175   0.9241   0.9014   0.9139   0.9764
-## Pos Pred Value         0.7976   0.6746   0.5877   0.6280   0.8511
-## Neg Pred Value         0.9268   0.9179   0.9274   0.9475   0.9153
+## Sensitivity            0.8154   0.6548   0.6645   0.7317   0.5985
+## Specificity            0.9138   0.9234   0.9063   0.9139   0.9722
+## Pos Pred Value         0.7899   0.6721   0.5996   0.6248   0.8290
+## Neg Pred Value         0.9257   0.9177   0.9275   0.9456   0.9149
 ## Prevalence             0.2845   0.1935   0.1744   0.1639   0.1838
-## Detection Rate         0.2326   0.1268   0.1161   0.1216   0.1100
-## Detection Prevalence   0.2916   0.1880   0.1976   0.1936   0.1292
-## Balanced Accuracy      0.8676   0.7898   0.7836   0.8279   0.7874</code></pre>
+## Detection Rate         0.2320   0.1267   0.1159   0.1199   0.1100
+## Detection Prevalence   0.2937   0.1885   0.1932   0.1919   0.1327
+## Balanced Accuracy      0.8646   0.7891   0.7854   0.8228   0.7853</code></pre>
 </div>
 </div>
 

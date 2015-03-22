@@ -8,12 +8,11 @@ More information is available from the website here: http://groupware.les.inf.pu
 
 ## Loading and cleaning up the data
 
-First of all we need to load training and test set.
+First of all we need to load the training data set.
 
 ```{r ChunkLoadData, cache=TRUE}
 setwd("C:/Users/Hark/Documents/Estudo/Data Science Specialization/08 - Practical Machine Learning/Curso")
 Training_Data <- read.csv("./Machine Learning/pml-training.csv")
-Testing_Data <- read.csv("./Machine Learning/pml-testing.csv")
 ```
 
 After have loaded all the data, we need to remove all variables that don't have influence on the outcome, in order to make the data analysis easier.
